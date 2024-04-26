@@ -19,6 +19,7 @@ double hmmMEUnif(double x, double *pars);
 double hmmNBinom(double x, double *pars);
 double hmmBeta(double x, double *pars);
 double hmmT(double x, double *pars);
+double hmmZINBinom(double x, double *pars);
 
 void DhmmCat(double x, double *pars, double *d);
 void DhmmIdent(double x, double *pars, double *d);
@@ -37,3 +38,4 @@ void DhmmMEUnif(double x, double *pars, double *d);
 void DhmmNBinom(double x, double *pars, double *d);
 void DhmmBeta(double x, double *pars, double *d);
 void DhmmT(double x, double *pars, double *d);
+void DhmmZINBinom(double x, double *pars, double *d);

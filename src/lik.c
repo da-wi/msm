@@ -33,7 +33,8 @@ hmmfn HMODELS[] = {
     hmmMEUnif,
     hmmNBinom,
     hmmBeta,
-    hmmT
+    hmmT,
+	hmmZINBinom
 };
 
 /* MUST KEEP THIS IN SAME ORDER AS .msm.HMODELPARS IN R/constants.R */
@@ -54,7 +55,8 @@ dhmmfn DHMODELS[] = {
     DhmmMEUnif,
     DhmmNBinom,
     DhmmBeta,
-    DhmmT
+    DhmmT,
+	DhmmZINBinom
 };
 
 /* MUST MATCH order of .msm.CTASKS in R/constants.R */

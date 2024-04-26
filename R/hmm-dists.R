@@ -1,6 +1,6 @@
 
 #' Hidden Markov model constructors
-#' 
+#'
 #' These functions are used to specify the distribution of the response
 #' conditionally on the underlying state in a hidden Markov model.  A list of
 #' these function calls, with one component for each state, should be used for
@@ -8,17 +8,17 @@
 #' parameters of the distribution should be given as arguments. Note the
 #' initial values should be supplied as literal values - supplying them as
 #' variables is currently not supported.
-#' 
+#'
 #' \code{hmmCat} represents a categorical response distribution on the set
 #' \code{1, 2, \dots{}, length(prob)}.  The Markov model with misclassification
 #' is an example of this type of model. The categories in this case are (some
 #' subset of) the underlying states.
-#' 
+#'
 #' The \code{hmmIdent} distribution is used for underlying states which are
 #' observed exactly without error.  For hidden Markov models with multiple
 #' outcomes, (see \code{\link{hmmMV}}), the outcome in the data which takes the
 #' special \code{hmmIdent} value must be the first of the multiple outcomes.
-#' 
+#'
 #' \code{hmmUnif}, \code{hmmNorm}, \code{hmmLNorm}, \code{hmmExp},
 #' \code{hmmGamma}, \code{hmmWeibull}, \code{hmmPois}, \code{hmmBinom},
 #' \code{hmmTNorm}, \code{hmmNBinom} and \code{hmmBeta} represent Uniform,
@@ -26,7 +26,7 @@
 #' truncated Normal, negative binomial and beta distributions, respectively,
 #' with parameterisations the same as the default parameterisations in the
 #' corresponding base R distribution functions.
-#' 
+#'
 #' \code{hmmT} is the Student t distribution with general mean \eqn{\mu}{mu},
 #' scale \eqn{\sigma}{sigma} and degrees of freedom \code{df}.  The variance is
 #' \eqn{\sigma^2 df/(df + 2)}{sigma^2 df/(df + 2)}.  Note the t distribution in
@@ -36,7 +36,7 @@
 #' hidden Markov model, but in practice, \code{df} might need to be fixed for
 #' identifiability - this can be done using the \code{fixedpars} argument to
 #' \code{\link{msm}}.
-#' 
+#'
 #' The \code{hmmMETNorm} and \code{hmmMEUnif} distributions are truncated
 #' Normal and Uniform distributions, but with additional Normal measurement
 #' error on the response. These are generalisations of the distributions
@@ -46,25 +46,25 @@
 #' distributions.  See also \code{\link{tnorm}} for density, distribution,
 #' quantile and random generation functions for the truncated Normal
 #' distribution.
-#' 
+#'
 #' See the PDF manual \file{msm-manual.pdf} in the \file{doc} subdirectory for
 #' algebraic definitions of all these distributions.  New hidden Markov model
 #' response distributions can be added to \pkg{msm} by following the
 #' instructions in Section 2.17.1.
-#' 
+#'
 #' Parameters which can be modelled in terms of covariates, on the scale of a
 #' link function, are as follows.
-#' 
+#'
 #' \tabular{ll}{ PARAMETER NAME \tab LINK FUNCTION \cr \code{mean} \tab
 #' identity \cr \code{meanlog} \tab identity \cr \code{rate} \tab log \cr
 #' \code{scale} \tab log \cr \code{meanerr} \tab identity \cr \code{meanp} \tab
 #' logit \cr \code{prob} \tab logit or multinomial logit }
-#' 
+#'
 #' Parameters \code{basecat, lower, upper, size, meanerr} are fixed at their
 #' initial values. All other parameters are estimated while fitting the hidden
 #' Markov model, unless the appropriate \code{fixedpars} argument is supplied
 #' to \code{msm}.
-#' 
+#'
 #' For categorical response distributions \code{(hmmCat)} the outcome
 #' probabilities initialized to zero are fixed at zero, and the probability
 #' corresponding to \code{basecat} is fixed to one minus the sum of the
@@ -128,11 +128,11 @@
 #' error: estimating the 'true' course of a marker of the progression of human
 #' immunodeficiency virus disease (with discussion) \emph{Applied Statistics}
 #' 45(3): 275-309 (1996).
-#' 
+#'
 #' Jackson, C.H. and Sharples, L.D. Hidden Markov models for the onset and
 #' progresison of bronchiolitis obliterans syndrome in lung transplant
 #' recipients \emph{Statistics in Medicine}, 21(1): 113--128 (2002).
-#' 
+#'
 #' Jackson, C.H., Sharples, L.D., Thompson, S.G. and Duffy, S.W. and Couto, E.
 #' Multi-state Markov models for disease progression with classification error.
 #' \emph{The Statistician}, 52(2): 193--209 (2003).
@@ -192,22 +192,22 @@ hmmDIST <- function(label, link, r, call, ...)
 
 
 #' Multivariate hidden Markov models
-#' 
+#'
 #' Constructor for a a multivariate hidden Markov model (HMM) where each of the
 #' \code{n} variables observed at the same time has a (potentially different)
 #' standard univariate distribution conditionally on the underlying state.  The
 #' \code{n} outcomes are independent conditionally on the hidden state.
-#' 
+#'
 #' If a particular state in a HMM has such an outcome distribution, then a call
 #' to \code{\link{hmmMV}} is supplied as the corresponding element of the
 #' \code{hmodel} argument to \code{\link{msm}}.  See Example 2 below.
-#' 
+#'
 #' A multivariate HMM where multiple outcomes at the same time are generated
 #' from the \emph{same} distribution is specified in the same way as the
 #' corresponding univariate model, so that \code{\link{hmmMV}} is not required.
 #' The outcome data are simply supplied as a matrix instead of a vector.  See
 #' Example 1 below.
-#' 
+#'
 #' The outcome data for such models are supplied as a matrix, with number of
 #' columns equal to the maximum number of arguments supplied to the
 #' \code{\link{hmmMV}} calls for each state.  If some but not all of the
@@ -215,7 +215,7 @@ hmmDIST <- function(label, link, r, call, ...)
 #' data at that time still contribute to the likelihood.  The missing data are
 #' assumed to be missing at random.  The Viterbi algorithm may be used to
 #' predict the missing values given the fitted model and the observed data.
-#' 
+#'
 #' Typically the outcome model for each state will be from the same family or
 #' set of families, but with different parameters.  Theoretically, different
 #' numbers of distributions may be supplied for different states.  If a
@@ -224,12 +224,12 @@ hmmDIST <- function(label, link, r, call, ...)
 #' this is not likely to be a useful model, since the number of observations
 #' will probably give information about the underlying state, violating the
 #' missing at random assumption.
-#' 
+#'
 #' Models with outcomes that are dependent conditionally on the hidden state
 #' (e.g. correlated multivariate normal observations) are not currently
 #' supported.
-#' 
-#' 
+#'
+#'
 #' @param ...  The number of arguments supplied should equal the maximum number
 #' of observations made at one time.  Each argument represents the univariate
 #' distribution of that outcome conditionally on the hidden state, and should
@@ -245,15 +245,15 @@ hmmDIST <- function(label, link, r, call, ...)
 #' (early view).
 #' @keywords distribution
 #' @examples
-#' 
-#' ## Simulate data from a Markov model 
+#'
+#' ## Simulate data from a Markov model
 #' nsubj <- 30; nobspt <- 5
 #' sim.df <- data.frame(subject = rep(1:nsubj, each=nobspt),
 #'                      time = seq(0, 20, length=nobspt))
 #' set.seed(1)
 #' two.q <- rbind(c(-0.1, 0.1), c(0, 0))
 #' dat <- simmulti.msm(sim.df[,1:2], qmatrix=two.q, drop.absorb=FALSE)
-#' 
+#'
 #' ### EXAMPLE 1
 #' ## Generate two observations at each time from the same outcome
 #' ## distribution:
@@ -263,33 +263,33 @@ hmmDIST <- function(label, link, r, call, ...)
 #' dat$obs1[dat$state==2] <- rbinom(sum(dat$state==2), 40, 0.5)
 #' dat$obs2[dat$state==2] <- rbinom(sum(dat$state==2), 40, 0.5)
 #' dat$obs <- cbind(obs1 = dat$obs1, obs2 = dat$obs2)
-#' 
-#' ## Fitted model should approximately recover true parameters 
+#'
+#' ## Fitted model should approximately recover true parameters
 #' msm(obs ~ time, subject=subject, data=dat, qmatrix=two.q,
 #'     hmodel = list(hmmBinom(size=40, prob=0.2),
 #'                   hmmBinom(size=40, prob=0.2)))
-#' 
+#'
 #' ### EXAMPLE 2
 #' ## Generate two observations at each time from different
 #' ## outcome distributions:
-#' ## Bin(40, 0.1) and Bin(40, 0.2) for state 1, 
+#' ## Bin(40, 0.1) and Bin(40, 0.2) for state 1,
 #' dat$obs1 <- dat$obs2 <- NA
 #' dat$obs1[dat$state==1] <- rbinom(sum(dat$state==1), 40, 0.1)
 #' dat$obs2[dat$state==1] <- rbinom(sum(dat$state==1), 40, 0.2)
-#' 
+#'
 #' ## Bin(40, 0.5) and Bin(40, 0.6) for state 2
 #' dat$obs1[dat$state==2] <- rbinom(sum(dat$state==2), 40, 0.6)
 #' dat$obs2[dat$state==2] <- rbinom(sum(dat$state==2), 40, 0.5)
 #' dat$obs <- cbind(obs1 = dat$obs1, obs2 = dat$obs2)
-#' 
-#' ## Fitted model should approximately recover true parameters 
-#' msm(obs ~ time, subject=subject, data=dat, qmatrix=two.q,   
+#'
+#' ## Fitted model should approximately recover true parameters
+#' msm(obs ~ time, subject=subject, data=dat, qmatrix=two.q,
 #'     hmodel = list(hmmMV(hmmBinom(size=40, prob=0.3),
-#'                         hmmBinom(size=40, prob=0.3)),                 
+#'                         hmmBinom(size=40, prob=0.3)),
 #'                  hmmMV(hmmBinom(size=40, prob=0.3),
 #'                        hmmBinom(size=40, prob=0.3))),
 #'     control=list(maxit=10000))
-#' 
+#'
 #' @export hmmMV
 hmmMV <- function(...){
     args <- list(...)
@@ -476,4 +476,23 @@ hmmT <- function(mean, scale, df)
               link="identity",
               r = function(n, rmean=mean) { rmean + scale*rt(n,df) },
               match.call())
-  }
+}
+
+#' @rdname hmm-dists
+#' @export
+hmmZINBinom <- function(disp, prob, bernpi)
+{
+  hmmDIST (label = "zinbinom",
+           link = "qlogis",
+           r = function(n, rprob=prob) {
+             rnbinom_samples <- rnbinom(n, disp, rprob)
+             # Apply zero inflation using a Bernoulli process
+             for (i in 1:n) {
+               if (runif(1) < bernpi) {
+                 rnbinom_samples[i] <- 0
+               }
+             }
+             return(rnbinom_samples)
+             },
+           match.call())
+}

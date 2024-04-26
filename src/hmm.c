@@ -142,3 +142,20 @@ double hmmT(double x, double *pars)
     double tmean = pars[0], tscale = pars[1], tdf=pars[2];
     return (1/tscale)*dt((x-tmean)/tscale, tdf, 0);
 }
+
+double hmmZINBinom(double x, double *pars) {
+    double size = pars[0]; // 'size' parameter for the negative binomial distribution
+    double prob = pars[1]; // 'prob' parameter for the negative binomial distribution
+    double bernpi = pars[2];   // 'pi' parameter for the zero-inflation Bernoulli process
+    double a;
+
+    if (x == 0) {
+        // Calculate the probability of zero count, inflated by the Bernoulli process
+        a = bernpi + (1 - bernpi) * dnbinom(0, size, prob, 0);
+    } else {
+        // Calculate the probability of non-zero counts
+        a =  (1 - bernpi) * dnbinom(x, size, prob, 0);
+    }
+
+    return(a);
+}

@@ -20,7 +20,8 @@
                         meuniform = c("lower", "upper", "sderr", "meanerr"),
                         nbinom = c("disp","prob"),
                         beta = c("shape1","shape2"),
-                        t = c("mean","scale","df")
+                        t = c("mean","scale","df"),
+                        zinbinom = c("disp","prob","bernpi")
                         )
 
 ## TODO - e.g. non-central beta, cauchy, chisq, noncentral chisq, F,
@@ -30,14 +31,14 @@
 
 ### Models with analytic derivatives available
 .msm.HMODELS.DERIV <- c("categorical","identity","uniform","normal","lognormal","exponential",
-                        "gamma","weibull","poisson","binomial","nbinom","beta","t")
+                        "gamma","weibull","poisson","binomial","nbinom","beta","t","zinbinom")
 
 ### Models with expected information matrix available
 .msm.HMODELS.INFO <- c("categorical","identity")
 
 .msm.HMODELFNS <- data.frame(
   label = .msm.HMODELS,
-  hmmname = c("hmmCat", "hmmIdent", "hmmUnif", "hmmNorm", "hmmLNorm", "hmmExp", "hmmGamma", "hmmWeibull", "hmmPois", "hmmBinom", "hmmBetaBinom", "hmmTNorm", "hmmMETNorm", "hmmMEUnif", "hmmNBinom", "hmmBeta", "hmmT"),
+  hmmname = c("hmmCat", "hmmIdent", "hmmUnif", "hmmNorm", "hmmLNorm", "hmmExp", "hmmGamma", "hmmWeibull", "hmmPois", "hmmBinom", "hmmBetaBinom", "hmmTNorm", "hmmMETNorm", "hmmMEUnif", "hmmNBinom", "hmmBeta", "hmmT", "hmmZINBinom"),
   stringsAsFactors = FALSE
 )
 
@@ -45,7 +46,7 @@
 .msm.LOCPARS <- c(categorical="p", identity=NA, uniform=NA, normal="mean", lognormal="meanlog",
                   exponential="rate", gamma="rate", weibull="scale",
                   poisson="rate", binomial="prob", betabinomial="meanp", truncnorm="mean",
-                  metruncnorm="meanerr", meuniform="meanerr", nbinom="prob", beta=NA, t="mean")
+                  metruncnorm="meanerr", meuniform="meanerr", nbinom="prob", beta=NA, t="mean",zinbinom="prob")
 
 ### Link functions for generalised regressions.
 ### MUST BE KEPT IN SAME ORDER as LINKFNS in lik.c
@@ -67,7 +68,7 @@
                        p=c(-Inf,Inf), # handled separately using multinomial logit
                        initp=c(-Inf,Inf), # handled separately using multinomial logit
                        df=c(0, Inf),
-                       qcov=c(-Inf,Inf),hcov=c(-Inf,Inf),initpcov=c(-Inf,Inf)
+                       qcov=c(-Inf,Inf),hcov=c(-Inf,Inf),initpcov=c(-Inf,Inf),bernpi=c(0,1)
                        )
 for (i in .msm.AUXPARS) .msm.PARRANGES[[i]] <- c(-Inf, Inf)
 .msm.PARRANGES <- do.call("rbind",.msm.PARRANGES)

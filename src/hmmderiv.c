@@ -142,13 +142,6 @@ void DhmmTNorm(double x, double *pars, double *d){}
 void DhmmMETNorm(double x, double *pars, double *d){}
 void DhmmMEUnif(double x, double *pars, double *d){}
 
-void DhmmNBinom(double x, double *pars, double *d)
-{
-    double size = pars[0], prob = pars[1], f;
-    f = dnbinom(x, size, prob, 0);
-    d[0] = f*(digamma(x+size) - digamma(size) + log(prob));
-    d[1] = f*(size/prob - x/(1-prob));
-}
 
 void DhmmBeta(double x, double *pars, double *d)
 {
@@ -167,4 +160,33 @@ void DhmmT(double x, double *pars, double *d)
     d[1] = f * (-1/tscale + (tdf+1)*xmsq / (tdf*R_pow(tscale,3) + tscale*xmsq));
     d[2] = 0.5 * f * (digamma((tdf + 1)/2) - digamma(tdf/2) - 1/tdf - 
 		      log(1 + xmsq / (tdf*tscale*tscale)) + (tdf+1)*xmsq / (R_pow(tdf*tscale,2) + tdf*xmsq));
+}
+
+void DhmmNBinom(double x, double *pars, double *d)
+{
+    double size = pars[0], prob = pars[1], f;
+    f = dnbinom(x, size, prob, 0);
+    d[0] = f*(digamma(x+size) - digamma(size) + log(prob));
+    d[1] = f*(size/prob - x/(1-prob));
+}
+
+
+void DhmmZINBinom(double x, double *pars, double *d) {
+    double size = pars[0]; // 'size' parameter for the negative binomial distribution
+    double prob = pars[1]; // 'prob' parameter for the negative binomial distribution
+    double pi = pars[2];   // 'pi' parameter for the zero-inflation Bernoulli process
+    double f;
+
+    if (x == 0) {
+        // For zero inflation, the derivative with respect to 'size' and 'prob' is zero
+        d[0] = 0;
+        d[1] = 0;
+    } else {
+        // Calculate the non-zero part of the derivative
+        f = (1 - pi) * dnbinom(x, size, prob, 0);
+        d[0] = f * (digamma(x + size) - digamma(size) + log(prob));
+        d[1] = f * (size / prob - x / (1 - prob));
+    }
+    // The derivative with respect to 'pi' is the difference between the zero-inflated model and the non-inflated model
+    d[2] = x == 0 ? 1 - dnbinom(0, size, prob, 0) : -dnbinom(x, size, prob, 0);
 }
