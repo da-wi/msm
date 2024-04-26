@@ -1,19 +1,13 @@
 msm
 ===
 
-The [msm](http://cran.r-project.org/package=msm) R package for continuous-time multi-state modelling of panel data.
+Fork of the [msm](http://cran.r-project.org/package=msm) R package for continuous-time multi-state modelling of panel data implementing a zero-inflated negative binomial model. 
 
-
-## Installation (stable CRAN version)
-```r
-install.packages("msm")
-```
 
 ## Installation (development version)
-
 ```r
 install.packages("devtools") # if devtools not already installed
-devtools::install_github('chjackson/msm')
+devtools::install_github('da-wi/msm')
 ```
 
 ## Tutorial material on msm 
