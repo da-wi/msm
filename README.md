@@ -9,15 +9,22 @@ Fork of the [msm](http://cran.r-project.org/package=msm) R package for continuou
 install.packages("devtools") # if devtools not already installed
 devtools::install_github('da-wi/msm')
 ```
+## Basic usage
 
-## Tutorial material on msm 
+```
+model_zeroinflnegbinom <- list(
+                 hmmMV(hmmZINBinom(disp = 10, prob = 0.4, bernpi = 0.1),
+                       hmmZINBinom(disp = 3, prob = 0.3, bernpi = 0.16),
+                       hmmZINBinom(disp = 5, prob = 0.6, bernpi = 0.7),
+                       hmmZINBinom(disp = 2, prob = 0.3, bernpi = 0.5)),
+                 hmmMV(hmmZINBinom(disp = 7, prob = 0.3, bernpi = 0.1),
+                       hmmZINBinom(disp = 3, prob = 0.3, bernpi = 0.16),
+                       hmmZINBinom(disp = 5, prob = 0.6, bernpi = 0.2),
+                       hmmZINBinom(disp = 4, prob = 0.3, bernpi = 0.1))
+)
+```
 
-[Multi-state modelling with msm: material from a web-based training course](https://chjackson.github.io/msm/msmcourse/)
+## Original package
 
-[User guide for the current CRAN version](https://cran.r-project.org/web/packages/msm/vignettes/msm-manual.pdf)
+https://github.com/chjackson/msm
 
-
-  <!-- badges: start -->
-  [![R-CMD-check](https://github.com/chjackson/msm/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/chjackson/msm/actions/workflows/R-CMD-check.yaml)
-  [![Codecov test coverage](https://codecov.io/gh/chjackson/msm/branch/master/graph/badge.svg)](https://app.codecov.io/gh/chjackson/msm?branch=master)
-  <!-- badges: end -->
